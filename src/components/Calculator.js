@@ -3,48 +3,50 @@ import Display from "./Display";
 import { useState } from 'react';
 
 function Calculator() {
-    const [firstOperand, setFirstOperand] = useState('0');
+    const [currentOperand, setcurrentOperand] = useState('0');
 
-    // functions to alter operands
+    // functions to alter current operand
     function appendDigit(clickedValue) {
-        if(firstOperand === '0') {
-            setFirstOperand( clickedValue );
+        if(currentOperand === '0') {
+            setcurrentOperand( clickedValue );
         } else {
-            setFirstOperand( firstOperand.concat(clickedValue) );
+            setcurrentOperand( currentOperand.concat(clickedValue) );
         }
     }
 
     function switchSign() {
-        if( firstOperand !== '0') {
-            if(firstOperand.charAt() === '-') {
-                setFirstOperand( firstOperand.slice(1) );
+        if( currentOperand !== '0') {
+            if(currentOperand.charAt() === '-') {
+                setcurrentOperand( currentOperand.slice(1) );
             } else {
-                setFirstOperand( firstOperand.padStart(firstOperand.length + 1, '-') );
+                setcurrentOperand( currentOperand.padStart(currentOperand.length + 1, '-') );
             }
         }
     }
 
     function resetToZero() {
-        setFirstOperand('0');
+        setcurrentOperand('0');
     }
 
     function backspace() {
-        if(firstOperand.length === 1 || (firstOperand.length === 2 && firstOperand.charAt() === '-') ) {
+        if(currentOperand.length === 1 || (currentOperand.length === 2 && currentOperand.charAt() === '-') ) {
             resetToZero(0);
         } else {
-            setFirstOperand( firstOperand.slice(0, firstOperand.length-1) );
+            setcurrentOperand( currentOperand.slice(0, currentOperand.length-1) );
         }
     }
 
     function addDecimalPoint() {
-        if( firstOperand.indexOf('.') === -1 ) {
-            setFirstOperand( firstOperand.concat('.') );   
+        if( currentOperand.indexOf('.') === -1 ) {
+            setcurrentOperand( currentOperand.concat('.') );
         }
     }
 
+    // functions for operations
+
     return(
         <div>
-            <Display currentText={firstOperand}/>
+            <Display currentText={currentOperand}/>
 
             <div>
                 <Button text={'+'}/>
