@@ -1,6 +1,6 @@
-function Display() {
+function Display({ currentText }) {
     return (
-        <></>
+        <div>{currentText}</div>
     );
 }
 
