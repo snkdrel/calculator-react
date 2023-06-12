@@ -3,94 +3,102 @@ import Display from "./Display";
 import { useState } from 'react';
 
 function Calculator() {
-    const [currentOperand, setcurrentOperand] = useState('0');
+    const [currentOperand, setCurrentOperand] = useState('0');
     const [previousOperand, setPreviousOperand] = useState('0');
     const [operator, setOperator] = useState('');
 
     // functions to alter current operand
-    function appendDigit(clickedValue) {
-        if(currentOperand === '0' || operator !== '') {
-            setcurrentOperand( clickedValue );
+    function handleClickDigit(clickedValue) {
+        if(currentOperand === '0') {
+            setCurrentOperand( clickedValue );
         } else {
-            setcurrentOperand( currentOperand.concat(clickedValue) );
+            setCurrentOperand( currentOperand.concat(clickedValue) );
         }
     }
 
-    function switchSign() {
+    function handleClickSign() {
         if( currentOperand !== '0') {
             if(currentOperand.charAt() === '-') {
-                setcurrentOperand( currentOperand.slice(1) );
+                setCurrentOperand( currentOperand.slice(1) );
             } else {
-                setcurrentOperand( currentOperand.padStart(currentOperand.length + 1, '-') );
+                setCurrentOperand( currentOperand.padStart(currentOperand.length + 1, '-') );
             }
         }
     }
 
     function resetToZero() {
-        setcurrentOperand('0');
+        setCurrentOperand('0');
     }
 
-    function backspace() {
+    function handleClickBackspace() {
         if(currentOperand.length === 1 || (currentOperand.length === 2 && currentOperand.charAt() === '-') ) {
             resetToZero(0);
         } else {
-            setcurrentOperand( currentOperand.slice(0, currentOperand.length-1) );
+            setCurrentOperand( currentOperand.slice(0, currentOperand.length-1) );
         }
     }
 
-    function addDecimalPoint() {
+    function handleClickPoint() {
         if( currentOperand.indexOf('.') === -1 ) {
-            setcurrentOperand( currentOperand.concat('.') );
+            setCurrentOperand( currentOperand.concat('.') );
         }
     }
 
     // functions for operations
-    function saveOperator(symbol) {
+    function handleOperatorClick(symbol) {
         setPreviousOperand(currentOperand);
         setOperator(symbol);
+        resetToZero();
     }
 
     function calculate() {
         if(operator === '+') {
-            setcurrentOperand(Number(previousOperand) + Number(currentOperand));
+            setCurrentOperand(Number(previousOperand) + Number(currentOperand));
         } else if(operator === '-') {
-            setcurrentOperand(Number(previousOperand) - Number(currentOperand));
+            setCurrentOperand(Number(previousOperand) - Number(currentOperand));
         } else if(operator === '*') {
-            setcurrentOperand(Number(previousOperand) * Number(currentOperand));
+            setCurrentOperand(Number(previousOperand) * Number(currentOperand));
         } else if(operator === '/') {
-            setcurrentOperand(Number(previousOperand) / Number(currentOperand));
+            setCurrentOperand(Number(previousOperand) / Number(currentOperand));
         }
+    }
+
+    // reset whole calculation
+    function resetCalculation() {
+        resetToZero();
+        setPreviousOperand('0');
+        setOperator('');
     }
 
     return(
         <div>
-            <Display currentText={currentOperand}/>
+            <Display currentText={currentOperand} />
 
             <div>
-                <Button text={'+'} onClickButton={() => saveOperator('+')}/>
-                <Button text={'-'} onClickButton={() => saveOperator('-')}/>
-                <Button text={'*'} onClickButton={() => saveOperator('*')}/>
-                <Button text={'/'} onClickButton={() => saveOperator('/')}/>
+                <Button text={'+'} onClickButton={() => handleOperatorClick('+')}/>
+                <Button text={'-'} onClickButton={() => handleOperatorClick('-')}/>
+                <Button text={'*'} onClickButton={() => handleOperatorClick('*')}/>
+                <Button text={'/'} onClickButton={() => handleOperatorClick('/')}/>
                 <Button text={'='} onClickButton={calculate}/>
 
-                <Button text={'7'} onClickButton={() => appendDigit('7')}/>
-                <Button text={'8'} onClickButton={() => appendDigit('8')}/>
-                <Button text={'9'} onClickButton={() => appendDigit('9')}/>
-                <Button text={'4'} onClickButton={() => appendDigit('4')}/>
-                <Button text={'5'} onClickButton={() => appendDigit('5')}/>
-                <Button text={'6'} onClickButton={() => appendDigit('6')}/>
-                <Button text={'1'} onClickButton={() => appendDigit('1')}/>
-                <Button text={'2'} onClickButton={() => appendDigit('2')}/>
-                <Button text={'3'} onClickButton={() => appendDigit('3')}/>
-                <Button text={'0'} onClickButton={() => appendDigit('0')}/>
+                <Button text={'7'} onClickButton={() => handleClickDigit('7')}/>
+                <Button text={'8'} onClickButton={() => handleClickDigit('8')}/>
+                <Button text={'9'} onClickButton={() => handleClickDigit('9')}/>
+                <Button text={'4'} onClickButton={() => handleClickDigit('4')}/>
+                <Button text={'5'} onClickButton={() => handleClickDigit('5')}/>
+                <Button text={'6'} onClickButton={() => handleClickDigit('6')}/>
+                <Button text={'1'} onClickButton={() => handleClickDigit('1')}/>
+                <Button text={'2'} onClickButton={() => handleClickDigit('2')}/>
+                <Button text={'3'} onClickButton={() => handleClickDigit('3')}/>
+                <Button text={'0'} onClickButton={() => handleClickDigit('0')}/>
 
-                <Button text={'.'} onClickButton={addDecimalPoint}/>
+                <Button text={'.'} onClickButton={handleClickPoint}/>
 
-                <Button text={'C'}/>
+                <Button text={'C'} onClickButton={resetCalculation}/>
                 <Button text={'CE'} onClickButton={resetToZero}/>
-                <Button text={'<x'} onClickButton={backspace}/>
+                <Button text={'<x'} onClickButton={handleClickBackspace}/>
 
-                <Button text={'+/-'} onClickButton={switchSign}/>
+                <Button text={'+/-'} onClickButton={handleClickSign}/>
             </div>
         </div>
     );

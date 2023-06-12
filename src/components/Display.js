@@ -1,4 +1,4 @@
-function Display({ currentText }) {
+function Display({ currentText}) {
     return (
         <div>{currentText}</div>
     );
