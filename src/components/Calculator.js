@@ -52,14 +52,20 @@ function Calculator() {
     }
 
     function calculate() {
+        let result;
         if(operator === '+') {
-            setCurrentOperand(Number(previousOperand) + Number(currentOperand));
+            result = Number(previousOperand) + Number(currentOperand);
         } else if(operator === '-') {
-            setCurrentOperand(Number(previousOperand) - Number(currentOperand));
+            result = Number(previousOperand) - Number(currentOperand);
         } else if(operator === '*') {
-            setCurrentOperand(Number(previousOperand) * Number(currentOperand));
+            result = Number(previousOperand) * Number(currentOperand);
         } else if(operator === '/') {
-            setCurrentOperand(Number(previousOperand) / Number(currentOperand));
+            result = Number(previousOperand) / Number(currentOperand);
+        }
+        if(operator !== '') {
+            setCurrentOperand(result.toString());
+            setOperator('');
+            setPreviousOperand('0');
         }
     }
 
