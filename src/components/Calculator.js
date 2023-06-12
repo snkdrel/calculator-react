@@ -45,13 +45,13 @@ function Calculator() {
     }
 
     // functions for operations
-    function handleOperatorClick(symbol) {
+    function handleClickBinaryOp(symbol) {
         setPreviousOperand(currentOperand);
         setOperator(symbol);
         resetToZero();
     }
 
-    function calculate() {
+    function handleClickEqual() {
         let result;
         if(operator === '+') {
             result = Number(previousOperand) + Number(currentOperand);
@@ -68,6 +68,20 @@ function Calculator() {
             setPreviousOperand('0');
         }
     }
+    
+    function handleClickUnaryOp(symbol) {
+        let result;
+        if(symbol === '%') {
+            result = Number(currentOperand) / 100;
+        } else if(symbol === 'pow') {
+            result = Number(currentOperand) * Number(currentOperand);
+        } else if(symbol === 'sqr') {
+            result = Math.sqrt(Number(currentOperand));
+        } else if(symbol === 'inv') {
+            result = 1 / Number(currentOperand);
+        }
+        setCurrentOperand(result.toString());
+    }
 
     // reset whole calculation
     function resetCalculation() {
@@ -81,11 +95,17 @@ function Calculator() {
             <Display currentText={currentOperand} />
 
             <div>
-                <Button text={'+'} onClickButton={() => handleOperatorClick('+')}/>
-                <Button text={'-'} onClickButton={() => handleOperatorClick('-')}/>
-                <Button text={'*'} onClickButton={() => handleOperatorClick('*')}/>
-                <Button text={'/'} onClickButton={() => handleOperatorClick('/')}/>
-                <Button text={'='} onClickButton={calculate}/>
+                <Button text={'+'} onClickButton={() => handleClickBinaryOp('+')}/>
+                <Button text={'-'} onClickButton={() => handleClickBinaryOp('-')}/>
+                <Button text={'*'} onClickButton={() => handleClickBinaryOp('*')}/>
+                <Button text={'/'} onClickButton={() => handleClickBinaryOp('/')}/>
+
+                <Button text={'%'} onClickButton={() => handleClickUnaryOp('%')}/>
+                <Button text={'pow'} onClickButton={() => handleClickUnaryOp('pow')}/>
+                <Button text={'sqr'} onClickButton={() => handleClickUnaryOp('sqr')}/>
+                <Button text={'1/x'} onClickButton={() => handleClickUnaryOp('inv')}/>
+
+                <Button text={'='} onClickButton={handleClickEqual}/>
 
                 <Button text={'7'} onClickButton={() => handleClickDigit('7')}/>
                 <Button text={'8'} onClickButton={() => handleClickDigit('8')}/>
