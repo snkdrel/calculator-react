@@ -46,41 +46,57 @@ function Calculator() {
 
     // functions for operations
     function handleClickBinaryOp(symbol) {
-        setPreviousOperand(currentOperand);
+        if(operator !== '') {
+            const result = calculateBinaryOp(Number(previousOperand), Number(currentOperand), operator);
+            setPreviousOperand(result.toString());
+        } else {
+            setPreviousOperand(currentOperand);
+        }
         setOperator(symbol);
         resetToZero();
     }
 
     function handleClickEqual() {
-        let result;
-        if(operator === '+') {
-            result = Number(previousOperand) + Number(currentOperand);
-        } else if(operator === '-') {
-            result = Number(previousOperand) - Number(currentOperand);
-        } else if(operator === '*') {
-            result = Number(previousOperand) * Number(currentOperand);
-        } else if(operator === '/') {
-            result = Number(previousOperand) / Number(currentOperand);
-        }
         if(operator !== '') {
+            const result = calculateBinaryOp(Number(previousOperand), Number(currentOperand), operator);
             setCurrentOperand(result.toString());
             setOperator('');
             setPreviousOperand('0');
         }
     }
+
+    function calculateBinaryOp(x, y, op) {
+        if(op === '+') {
+            return x + y;
+        } else if(op === '-') {
+            return x - y;
+        } else if(op === '*') {
+            return x * y;
+        } else if(op === '/') {
+            return x / y;
+        }
+    }
     
     function handleClickUnaryOp(symbol) {
         let result;
-        if(symbol === '%') {
-            result = Number(currentOperand) / 100;
-        } else if(symbol === 'pow') {
-            result = Number(currentOperand) * Number(currentOperand);
-        } else if(symbol === 'sqr') {
-            result = Math.sqrt(Number(currentOperand));
-        } else if(symbol === 'inv') {
-            result = 1 / Number(currentOperand);
+        if(operator !== '') {
+            result = calculateUnaryOp( calculateBinaryOp(Number(previousOperand), Number(currentOperand), operator), symbol );
+        } else {
+            result = calculateUnaryOp(Number(currentOperand), symbol);
         }
         setCurrentOperand(result.toString());
+    }
+
+    function calculateUnaryOp(x, op) {
+        if(op === '%') {
+            return x / 100;
+        } else if (op === 'pow') {
+            return x * x;
+        } else if (op === 'sqr') {
+            return Math.sqrt(x);
+        } else if (op === 'inv') {
+            return 1 / x;
+        }
     }
 
     // reset whole calculation
