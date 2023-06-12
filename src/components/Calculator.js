@@ -4,10 +4,12 @@ import { useState } from 'react';
 
 function Calculator() {
     const [currentOperand, setcurrentOperand] = useState('0');
+    const [previousOperand, setPreviousOperand] = useState('0');
+    const [operator, setOperator] = useState('');
 
     // functions to alter current operand
     function appendDigit(clickedValue) {
-        if(currentOperand === '0') {
+        if(currentOperand === '0' || operator !== '') {
             setcurrentOperand( clickedValue );
         } else {
             setcurrentOperand( currentOperand.concat(clickedValue) );
@@ -43,17 +45,33 @@ function Calculator() {
     }
 
     // functions for operations
+    function saveOperator(symbol) {
+        setPreviousOperand(currentOperand);
+        setOperator(symbol);
+    }
+
+    function calculate() {
+        if(operator === '+') {
+            setcurrentOperand(Number(previousOperand) + Number(currentOperand));
+        } else if(operator === '-') {
+            setcurrentOperand(Number(previousOperand) - Number(currentOperand));
+        } else if(operator === '*') {
+            setcurrentOperand(Number(previousOperand) * Number(currentOperand));
+        } else if(operator === '/') {
+            setcurrentOperand(Number(previousOperand) / Number(currentOperand));
+        }
+    }
 
     return(
         <div>
             <Display currentText={currentOperand}/>
 
             <div>
-                <Button text={'+'}/>
-                <Button text={'-'}/>
-                <Button text={'*'}/>
-                <Button text={'/'}/>
-                <Button text={'='}/>
+                <Button text={'+'} onClickButton={() => saveOperator('+')}/>
+                <Button text={'-'} onClickButton={() => saveOperator('-')}/>
+                <Button text={'*'} onClickButton={() => saveOperator('*')}/>
+                <Button text={'/'} onClickButton={() => saveOperator('/')}/>
+                <Button text={'='} onClickButton={calculate}/>
 
                 <Button text={'7'} onClickButton={() => appendDigit('7')}/>
                 <Button text={'8'} onClickButton={() => appendDigit('8')}/>
