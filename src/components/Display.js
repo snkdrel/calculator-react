@@ -1,6 +1,6 @@
 function Display({ currentText}) {
     return (
-        <div>{currentText}</div>
+        <div  className="display">{currentText}</div>
     );
 }
 

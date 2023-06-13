@@ -107,40 +107,39 @@ function Calculator() {
     }
 
     return(
-        <div>
-            <Display currentText={currentOperand} />
+        <div className="calculator-container">
+            <Display currentText={currentOperand}/>
 
-            <div>
-                <Button text={'+'} onClickButton={() => handleClickBinaryOp('+')}/>
-                <Button text={'-'} onClickButton={() => handleClickBinaryOp('-')}/>
-                <Button text={'*'} onClickButton={() => handleClickBinaryOp('*')}/>
-                <Button text={'/'} onClickButton={() => handleClickBinaryOp('/')}/>
-
+            <div className="button-container">
                 <Button text={'%'} onClickButton={() => handleClickUnaryOp('%')}/>
-                <Button text={'pow'} onClickButton={() => handleClickUnaryOp('pow')}/>
-                <Button text={'sqr'} onClickButton={() => handleClickUnaryOp('sqr')}/>
-                <Button text={'1/x'} onClickButton={() => handleClickUnaryOp('inv')}/>
+                <Button text={'CE'} onClickButton={resetToZero}/>
+                <Button text={'C'} onClickButton={resetCalculation}/>
+                <Button text={'\u232b'} onClickButton={handleClickBackspace}/>
 
-                <Button text={'='} onClickButton={handleClickEqual}/>
+                <Button text={'¹⁄ₓ'} onClickButton={() => handleClickUnaryOp('inv')}/>
+                <Button text={'x\u00b2'} onClickButton={() => handleClickUnaryOp('pow')}/>
+                <Button text={'\u221a'} onClickButton={() => handleClickUnaryOp('sqr')}/>
+                <Button text={'\u00f7'} onClickButton={() => handleClickBinaryOp('/')}/>
 
                 <Button text={'7'} onClickButton={() => handleClickDigit('7')}/>
                 <Button text={'8'} onClickButton={() => handleClickDigit('8')}/>
                 <Button text={'9'} onClickButton={() => handleClickDigit('9')}/>
+                <Button text={'\u00d7'} onClickButton={() => handleClickBinaryOp('*')}/>
+
                 <Button text={'4'} onClickButton={() => handleClickDigit('4')}/>
                 <Button text={'5'} onClickButton={() => handleClickDigit('5')}/>
                 <Button text={'6'} onClickButton={() => handleClickDigit('6')}/>
+                <Button text={'-'} onClickButton={() => handleClickBinaryOp('-')}/>
+
                 <Button text={'1'} onClickButton={() => handleClickDigit('1')}/>
                 <Button text={'2'} onClickButton={() => handleClickDigit('2')}/>
                 <Button text={'3'} onClickButton={() => handleClickDigit('3')}/>
+                <Button text={'+'} onClickButton={() => handleClickBinaryOp('+')}/>
+
+                <Button text={'⁺⁄₋'} onClickButton={handleClickSign}/>
                 <Button text={'0'} onClickButton={() => handleClickDigit('0')}/>
-
                 <Button text={'.'} onClickButton={handleClickPoint}/>
-
-                <Button text={'C'} onClickButton={resetCalculation}/>
-                <Button text={'CE'} onClickButton={resetToZero}/>
-                <Button text={'<x'} onClickButton={handleClickBackspace}/>
-
-                <Button text={'+/-'} onClickButton={handleClickSign}/>
+                <Button text={'='} onClickButton={handleClickEqual}/>                
             </div>
         </div>
     );
